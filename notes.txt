@@ -1,0 +1,17 @@
+Few things
+
+I want to set up GDT, IDT and Paging
+
+I have a boot PGD and PGT set up, this is good for now but eventually I will need to unmap PGT
+
+GDT and IDT should never be unmapped, so how does PFR work
+    Page Descriptor and make it permenantly have an owner
+    I guess I don't have to worry about this now, Can worry about all this when I set up PFR
+
+1. Write new GDT and set it
+2. Write new IDT and set it
+3. Replace boot PGD and PGT with more permanent mapping of entire kernel space
+4. Work on Page frame allocation and page frame reclamation
+        Kernel Image should always be preseent since, well where else could it go?
+        Swap space maybe?? Probably not
+5. 
