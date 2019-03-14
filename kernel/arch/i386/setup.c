@@ -1,4 +1,5 @@
 #include <kernel/setup.h>
+#include <string.h>
 
 //GDT Entry Low Word Offsets
 #define GDTENTRY_LW_LIMIT_0_15_OFFSET                  (0)
@@ -18,7 +19,9 @@
 #define GDTENTRY_HW_SIZE_MASK                         (1 << 22)
 #define GDTENTRY_HW_GRANULARITY_MASK                  (1 << 23)
 
-#define GDTENTRY_USER_PRIO_MASK                         (3 << 13)
+#define GDTENTRY_USER_PRIO_MASK                       (3 << 13)
+
+#define GDTENTRY_LIMIT_MAX                            (0xFFFFF)
 
 
 void initFlatGDT( ) {
@@ -32,14 +35,14 @@ void initFlatGDT( ) {
             
     uint32_t flagsKernCode = flagsKernData | GDTENTRY_HW_EXECUTABLE_MASK;
     //Set up kernel data code descriptor
-    initGdtEntry(&GDT[1], 0, 0xFFFFF, flagsKernCode);
+    initGdtEntry(&GDT[1], 0, GDTENTRY_LIMIT_MAX, flagsKernCode);
     //Set up kernel data segment descriptor
-    initGdtEntry(&GDT[2], 0, 0xFFFFF, flagsKernData);
+    initGdtEntry(&GDT[2], 0, GDTENTRY_LIMIT_MAX, flagsKernData);
     return;
 }
 
 void initGdtEntry(GDTEntry_t *targetGdtEntry, uint32_t base, uint32_t limit, uint32_t flags) {
-    if(target == NULL) {
+    if(targetGdtEntry == NULL) {
         return;
     }
     
